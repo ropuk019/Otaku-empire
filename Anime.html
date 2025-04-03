@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OtakuEmpire - Premium Anime Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e63946;
+            --secondary: #1d3557;
+            --dark: #0f0f1a;
+            --light: #f1faee;
+            --accent: #a8dadc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            width: 100%;
+            max-width: 500px;
+            margin: 1.5rem auto;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+        
+        .search-btn:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Main Content */
+        .container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .anime-sidebar {
+            width: 25%;
+            padding-right: 1.5rem;
+        }
+        
+        .main-content {
+            width: 75%;
+            padding-left: 1.5rem;
+        }
+        
+        .section-title {
+            margin: 2rem 0 1.5rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--primary);
+        }
+        
+        /* Anime Grid */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .anime-card {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .anime-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .anime-info {
+            padding: 1rem;
+        }
+        
+        .anime-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        /* Sidebar Anime List */
+        .sidebar-anime-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .sidebar-anime-card {
+            display: flex;
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .sidebar-anime-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar-anime-card img {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .sidebar-anime-info {
+            padding: 0.5rem;
+            flex-grow: 1;
+        }
+        
+        .sidebar-anime-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-anime-meta {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        
+        /* Episode List */
+        .episode-container {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .episode-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        
+        .episode-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .episode-item:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Video Player */
+        .video-container {
+            width: 100%;
+            margin: 2rem 0;
+            display: none;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 500px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .anime-sidebar {
+                width: 35%;
+            }
+            
+            .main-content {
+                width: 65%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .container {
+                flex-direction: column;
+            }
+            
+            .anime-sidebar, .main-content {
+                width: 100%;
+                padding: 0;
+            }
+            
+            .anime-sidebar {
+                order: 2;
+                margin-top: 2rem;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .video-player {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Otaku<span>Empire</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Popular</a></li>
+                <li><a href="#">New Releases</a></li>
+                <li><a href="#">Genres</a></li>
+                <li><a href="#">Movies</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <!-- Anime Sidebar -->
+        <div class="anime-sidebar">
+            <h2 class="section-title">All Anime</h2>
+            <div class="sidebar-anime-list">
+                <!-- Sidebar Anime Card 1 -->
+                <div class="sidebar-anime-card" onclick="showAnime('A Silent Voice')">
+                    <a href="https://ibb.co.com/v4VN34Zh" target="_blank"><img src="https://i.ibb.co.com/PGF2cGwM/received-1012459840810062.png" alt="A Silent Voice" border="0"></a>
+                    <div class="sidebar-anime-info">
+                        <div class="sidebar-anime-title">A Silent Voice</div>
+                        <div class="sidebar-anime-meta">Movie • 1 Episode</div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar Anime Card 2 -->
+                <div class="sidebar-anime-card" onclick="showAnime('Your Name')">
+                    <a href="https://ibb.co.com/wF19b0sc" target="_blank"><img src="https://i.ibb.co.com/gLC5XjV4/images-9.jpg" alt="Your Name" border="0"></a>
+                    <div class="sidebar-anime-info">
+                        <div class="sidebar-anime-title">Your Name</div>
+                        <div class="sidebar-anime-meta">Movie • 1 Episode</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search for anime..." id="searchInput">
+                <button class="search-btn" id="searchButton">Search</button>
+            </div>
+            
+            <!-- Featured Anime Section -->
+            <h2 class="section-title">Featured Anime</h2>
+            <div class="anime-grid" id="animeGrid">
+                <!-- Anime Card 1 -->
+                <div class="anime-card" onclick="showAnime('A Silent Voice')">
+                    <a href="https://ibb.co.com/v4VN34Zh" target="_blank"><img src="https://i.ibb.co.com/PGF2cGwM/received-1012459840810062.png" alt="A Silent Voice" border="0"></a>
+                    <div class="anime-info">
+                        <div class="anime-title">A Silent Voice</div>
+                        <div class="anime-meta">
+                            <span>Movie</span>
+                            <span>1 Episode</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Anime Card 2 -->
+                <div class="anime-card" onclick="showAnime('Your Name')">
+                    <a href="https://ibb.co.com/wF19b0sc" target="_blank"><img src="https://i.ibb.co.com/gLC5XjV4/images-9.jpg" alt="Your Name" border="0"></a>
+                    <div class="anime-info">
+                        <div class="anime-title">Your Name</div>
+                        <div class="anime-meta">
+                            <span>Movie</span>
+                            <span>1 Episode</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Player (Hidden by default) -->
+            <div class="video-container" id="videoContainer">
+                <h2 class="section-title" id="videoTitle">Now Playing: </h2>
+                <div class="video-player" id="videoPlayer">
+                    <!-- Video content will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Episode List (Hidden by default) -->
+            <div class="episode-container" id="episodeContainer">
+                <h2 class="section-title" id="episodeTitle">Episodes</h2>
+                <div class="episode-list" id="episodeList">
+                    <!-- Episode items will be added dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">DMCA</a>
+        </div>
+        <p class="copyright">© 2023 OtakuEmpire. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Anime database
+        const animeDatabase = [
+            {
+                title: 'A Silent Voice',
+                type: 'Movie',
+                episodes: 1,
+                description: 'A young man is ostracized by his classmates after he bullies a deaf girl to the point where she moves away. Years later, he sets off on a path for redemption.',
+                image: 'https://i.ibb.co.com/PGF2cGwM/received-1012459840810062.png',
+                imageLink: 'https://ibb.co.com/v4VN34Zh',
+                videoHtml: '<iframe src="https://cybervynx.com/e/pk8yisaa4ytr" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="100%" height="100%" allowfullscreen></iframe>'
+            },
+            {
+                title: 'Your Name',
+                type: 'Movie',
+                episodes: 1,
+                description: 'Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.',
+                image: 'https://i.ibb.co.com/gLC5XjV4/images-9.jpg',
+                imageLink: 'https://ibb.co.com/wF19b0sc',
+                videoHtml: '<iframe src="https://cybervynx.com/e/jnw63ibhrjdy" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="100%" height="100%" allowfullscreen></iframe>'
+            }
+        ];
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const animeGrid = document.getElementById('animeGrid');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoTitle = document.getElementById('videoTitle');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const episodeContainer = document.getElementById('episodeContainer');
+        const episodeTitle = document.getElementById('episodeTitle');
+        const episodeList = document.getElementById('episodeList');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            videoContainer.style.display = 'none';
+            episodeContainer.style.display = 'none';
+            
+            // Search functionality
+            searchButton.addEventListener('click', searchAnime);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchAnime();
+                }
+            });
+        });
+
+        // Search anime function
+        function searchAnime() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderAnimeGrid(animeDatabase);
+                return;
+            }
+            
+            const filteredAnime = animeDatabase.filter(anime => 
+                anime.title.toLowerCase().includes(searchTerm) || 
+                anime.description.toLowerCase().includes(searchTerm)
+            );
+            
+            renderAnimeGrid(filteredAnime);
+            
+            if (filteredAnime.length === 0) {
+                animeGrid.innerHTML = '<p class="no-results">No anime found matching your search.</p>';
+            }
+        }
+
+        // Render anime grid
+        function renderAnimeGrid(animeList) {
+            animeGrid.innerHTML = animeList.map(anime => `
+                <div class="anime-card" onclick="showAnime('${anime.title}')">
+                    <a href="${anime.imageLink}" target="_blank"><img src="${anime.image}" alt="${anime.title}" border="0"></a>
+                    <div class="anime-info">
+                        <div class="anime-title">${anime.title}</div>
+                        <div class="anime-meta">
+                            <span>${anime.type}</span>
+                            <span>${anime.episodes} Episode${anime.episodes > 1 ? 's' : ''}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show anime details
+        function showAnime(animeName) {
+            const anime = animeDatabase.find(a => a.title === animeName);
+            
+            if (!anime) return;
+            
+            // Update video container
+            videoTitle.textContent = `Now Playing: ${anime.title}`;
+            videoPlayer.innerHTML = anime.videoHtml;
+            videoContainer.style.display = 'block';
+            
+            // Update episode container
+            episodeTitle.textContent = `${anime.title} Episodes`;
+            episodeList.innerHTML = '';
+            
+            // Create episode items
+            for (let i = 1; i <= anime.episodes; i++) {
+                const episodeItem = document.createElement('div');
+                episodeItem.className = 'episode-item';
+                episodeItem.textContent = `Episode ${i}`;
+                episodeItem.onclick = () => playEpisode(anime.title, i);
+                episodeList.appendChild(episodeItem);
+            }
+            
+            episodeContainer.style.display = 'block';
+            
+            // Scroll to video
+            videoContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Play specific episode
+        function playEpisode(animeName, episodeNumber) {
+            const anime = animeDatabase.find(a => a.title === animeName);
+            
+            if (!anime) return;
+            
+            videoTitle.textContent = `Now Playing: ${anime.title} - Episode ${episodeNumber}`;
+            
+            // In a real implementation, you would load the specific episode here
+            videoPlayer.innerHTML = anime.videoHtml;
+            
+            // Scroll to video
+            videoContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
